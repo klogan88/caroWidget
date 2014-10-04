@@ -29,7 +29,7 @@ require({
 		"Beasley"
 	];
 	
-	var items2 = {
+	var items2 = [
 		"Bill",
 		"Frank",
 		"Bobby",
@@ -39,7 +39,7 @@ require({
 		"Grapes",
 		"Beer",
 		"Booze"
-	}
+	];
 	
 	var props1 = {
 		items: items1,
@@ -53,5 +53,4 @@ require({
 	
 	var caro1 = new caro(props1, $("#container1"));
 	var caro2 = new caro(props2, $("#container2"));
-	
 });
