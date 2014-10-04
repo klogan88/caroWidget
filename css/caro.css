@@ -1,3 +1,53 @@
 .inlineShown {
 	display: inline-block;
 }
+
+.hidden {
+	display: none;
+}
+
+.caroItem {
+	border-style: solid;
+	margin: 0 5px 0 5px;
+	width: 100px;
+	height: 80px;
+}
+
+.caroText {
+	text-align: center;
+}
+
+.controls {
+	padding: 0 0 10px 0;
+}
+
+.itemsContainer {
+	position: relative;
+	width: 660px;
+	height: 90px;
+	overflow: hidden;
+}
+
+.caroItems {
+	position: relative;
+	width: 2800px;
+	top: 0;
+	left: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.next, .back {
+	position: absolute;
+	top: 50%;
+}
+ 
+.container {
+	position: relative;
+}
