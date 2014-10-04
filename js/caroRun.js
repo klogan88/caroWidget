@@ -30,15 +30,15 @@ require({
 	];
 	
 	var items2 = [
-		"Bill",
-		"Frank",
-		"Bobby",
-		"Larry",
+		"Banana",
+		"Apple",
+		"Chicken",
+		"Soup",
 		"Cheese",
 		"Pizza",
 		"Grapes",
 		"Beer",
-		"Booze"
+		"Steak"
 	];
 	
 	var props1 = {
