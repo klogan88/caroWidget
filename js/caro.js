@@ -1,73 +1,46 @@
-define(['jquery'], function($) {
+define([
+	'jquery', 
+	'handlebars',
+	'plugins/text!templates/caro.html'], 
+
+function($, handlebars, caroTemp) {
 	
 	function newCaro (caroProps, element) {
 		
 		this.setProps(caroProps);
-		
 		this.anchorNode = element;
 		
+		this.caroTempComp = handlebars.compile(caroTemp);
+		this.anchorNode.html(this.caroTempComp);
+		
 		//container Node.
-		this.domNode = $("<div></div>");
-		this.domNode.addClass("container");
+		this.domNode = this.anchorNode.find(".container");
 		
 		//controls node
-		this.controlsNode = $("<div></div>");
-		this.controlsNode.addClass("controls");
+		this.controlsNode = this.anchorNode.find(".controls");
 		
-		//buttons
-		this.populateBtn = $("<button></button>");
-		this.populateBtn.addClass("populate");
-		this.populateBtn.text("Populate");
-		
-		this.clearBtn = $("<button></button>");
-		this.clearBtn.addClass("clear");
-		this.clearBtn.text("Clear");
-		
-		this.controlsNode.append(this.populateBtn);
-		this.controlsNode.append(this.clearBtn);
+		//controls buttons
+		this.populateBtn = this.anchorNode.find(".populate");
+		this.clearBtn = this.anchorNode.find(".clear");
 		
 		//carousel node
-		this.caroNode = $("<div></div>");
-		this.caroNode.addClass("caroNode");
+		this.caroNode = this.anchorNode.find(".caroNode");
 		
 		//carousel buttons
-		this.backBtn = $("<button></button>");
-		this.backBtn.addClass("back");
-		this.backBtn.text("Back");
-		
-		this.nextBtn = $("<button></button>");
-		this.nextBtn.addClass("next");
-		this.nextBtn.text("Next");
+		this.backBtn = this.anchorNode.find(".back");
+		this.nextBtn = this.anchorNode.find(".next");
 		
 		//items containter
-		this.itemsContainer = $("<div></div>");
-		this.itemsContainer.addClass("itemsContainer inlineShown");
+		this.itemsContainer = this.anchorNode.find(".itemsContainer");
 		
 		//empty state div
-		this.emptyDiv = $("<div></div>");
-		this.emptyDiv.text("Currently empty");
-		this.emptyDiv.addClass("emptyDiv");
+		this.emptyDiv = this.anchorNode.find(".emptyDiv");
 		
 		//caro items container
-		this.caroItems = $("<div></div>");
-		this.caroItems.addClass("caroItems");
-		
-		//Add the items together
-		this.itemsContainer.append(this.emptyDiv);
-		this.itemsContainer.append(this.caroItems);
-		
-		this.caroNode.append(this.backBtn);
-		this.caroNode.append(this.itemsContainer);
-		this.caroNode.append(this.nextBtn);
-		
-		this.domNode.append(this.controlsNode);
-		this.domNode.append(this.caroNode);
+		this.caroItems = this.anchorNode.find(".caroItems");
 		
 		this.populate();
 		this.connectBtns();
-		
-		this.anchorNode.append(this.domNode);
-		
 		this.setContainerWidth();
 	};
 	
@@ -75,6 +48,7 @@ define(['jquery'], function($) {
 		
 		this.itemsHeld = props.items;
 		this.shownNum = props.shownNum;
+		this.animating = false;
 	};
 	
 	newCaro.prototype.populate = function() {
@@ -133,6 +107,11 @@ define(['jquery'], function($) {
 	};
 	
 	newCaro.prototype.moveNext = function() {
+		
+		if(this.animating) {
+			return;
+		}
+		
 		var showns = this.caroItems.children(".caroItem.inlineShown");
 		var nextToShow = showns.slice(showns.length - 1, showns.length).next();
 		var nextToHide = showns.slice(0, 1);
@@ -144,10 +123,16 @@ define(['jquery'], function($) {
 		var nextShown = showns.slice(showns.length-1, showns.length).next();
 		var resetShows = this.caroItems.children(".caroItem.real").slice(0, this.shownNum);
 		
+		this.animating = true;
 		this.caroItems.animate({"left": "-"+setLeft+"px"}, "slow", this.animateNext.bind(this, nextToHide, nextShown, showns, resetShows));
 	};
 	
 	newCaro.prototype.moveBack = function() {
+	
+		if(this.animating) {
+			return;
+		}
+		
 		var showns = this.caroItems.children(".caroItem.inlineShown");
 		var nextToShow = showns.slice(0, 1).prev();
 		var nextToHide = showns.slice(showns.length - 1, showns.length);
@@ -162,6 +147,7 @@ define(['jquery'], function($) {
 		var resetReals = this.caroItems.children(".caroItem.real");
 		var resetShows = resetReals.slice(resetReals.length - this.shownNum, resetReals.length);
 		
+		this.animating = true;
 		this.caroItems.animate({"left": "0px"}, "slow", this.animateNext.bind(this, nextToHide, nextShown, showns, resetShows));
 	};
 	
@@ -174,6 +160,8 @@ define(['jquery'], function($) {
 			showns.removeClass("inlineShown").addClass("hidden");
 			resetShows.removeClass("hidden").addClass("inlineShown");
 		}
+		
+		this.animating = false;
 	};
 	
 	newCaro.prototype.connectBtns = function() {

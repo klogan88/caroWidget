@@ -1,12 +1,13 @@
 require({
 		paths: {
 			jquery: "js/jquery",
-			caro: "js/caro"
+			caro: "js/caro",
+			handlebars: "js/handlebars"
 		}
 	},
-	["jquery", "caro"],
-	function($, caro){
-
+	["jquery", "caro", "handlebars"],
+	function($, caro, handlebars){
+	
 	var items1 = [
 		"Dempsey",
 		"Bradley",
