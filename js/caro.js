@@ -39,7 +39,11 @@ function($, handlebars, caroTemp) {
 		//caro items container
 		this.caroItems = this.anchorNode.find(".caroItems");
 		
+		//navigation buttons container
+		this.navBtnContainer = this.anchorNode.find(".navBtnContainer");
+		
 		this.populate();
+		this.addNavButtons(this.itemsHeld.length);
 		this.connectBtns();
 		this.setContainerWidth();
 	};
@@ -90,6 +94,15 @@ function($, handlebars, caroTemp) {
 			}
 			
 			newSquare.insertBefore(firstClone);
+		}
+	};
+	
+	newCaro.prototype.addNavButtons = function(num) {
+		
+		for(var i = 0; i < num; i++) {
+			var newBtn = $("<button></button>");
+			newBtn.addClass("navBtn");
+			this.navBtnContainer.append(newBtn);
 		}
 	};
 	

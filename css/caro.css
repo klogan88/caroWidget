@@ -23,8 +23,7 @@
 
 .itemsContainer {
 	position: relative;
-	width: 660px;
-	height: 90px;
+	height: 110px;
 	overflow: hidden;
 }
 
@@ -50,4 +49,9 @@ html {
  
 .container {
 	position: relative;
+}
+
+.navBtnContainer {
+	text-align: center;
+	padding: 20px 0 10px 0;
 }
